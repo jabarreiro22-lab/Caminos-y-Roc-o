@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camino y Rocío | Devoción a la Blanca Paloma</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --crema: #f7f0e3;
+            --dorado: #c9922a;
+            --marron-oscuro: #3d1f00;
+            --rojo-vino: #8b1a1a;
+            --blanco-roto: #fffcf7;
+            --transicion: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--crema);
+            color: var(--marron-oscuro);
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, .nav-link { font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: 1px; }
+        p { font-family: 'Crimson Pro', serif; font-size: 1.1rem; }
+
+        /* --- Utilidades de Animación --- */
+        .reveal { opacity: 0; transform: translateY(30px); transition: var(--transicion); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- 1. Barra Superior --- */
+        .top-bar {
+            background: var(--rojo-vino);
+            color: var(--dorado);
+            text-align: center;
+            padding: 8px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 2px solid var(--dorado);
+        }
+
+        /* --- 2. Navbar --- */
+        nav {
+            background: var(--blanco-roto);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        .logo { color: var(--rojo-vino); font-size: 1.5rem; font-weight: bold; text-decoration: none; }
+        .nav-links { display: flex; gap: 20px; align-items: center; }
+        .nav-link { text-decoration: none; color: var(--marron-oscuro); font-size: 0.85rem; transition: var(--transicion); }
+        .nav-link:hover { color: var(--dorado); }
+        .btn-subscribe { 
+            background: var(--dorado); color: white; padding: 8px 20px; 
+            border-radius: 2px; text-decoration: none; font-family: 'Cinzel'; font-size: 0.7rem;
+            transition: var(--transicion);
+        }
+        .btn-subscribe:hover { background: var(--marron-oscuro); }
+
+        /* --- 3. Hero Section --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero h1 { font-size: 4rem; margin-bottom: 10px; color: var(--dorado); text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+        .hero p { font-style: italic; font-size: 1.5rem; max-width: 600px; margin-bottom: 30px; }
+        .btn-main {
+            padding: 15px 40px;
+            border: 2px solid var(--dorado);
+            color: var(--dorado);
+            text-decoration: none;
+            font-family: 'Cinzel';
+            transition: var(--transicion);
+            background: rgba(0,0,0,0.3);
+        }
+        .btn-main:hover { background: var(--dorado); color: white; }
+
+        /* --- 4. Ticker --- */
+        .ticker-wrap {
+            background: var(--marron-oscuro);
+            color: var(--crema);
+            overflow: hidden;
+            padding: 10px 0;
+            border-bottom: 3px solid var(--dorado);
+        }
+        .ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: ticker 30s linear infinite;
+        }
+        .ticker-item { margin-right: 50px; font-family: 'Cinzel'; font-size: 0.9rem; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+
+        /* --- 5. Historia --- */
+        .section-padding { padding: 80px 10%; }
+        .history-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .history-img { width: 100%; height: 500px; object-fit: cover; border: 10px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .quote { font-size: 1.8rem; color: var(--rojo-vino); font-style: italic; margin: 30px 0; border-left: 4px solid var(--dorado); padding-left: 20px; }
+        
+        .timeline { margin-top: 40px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .hito { text-align: center; }
+        .hito-year { font-family: 'Cinzel'; color: var(--dorado); font-weight: bold; font-size: 1.2rem; }
+
+        /* --- 6. Noticias --- */
+        .news-section { background: #1a1a1a; color: white; }
+        .news-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 30px; margin-top: 40px; }
+        .main-news { position: relative; cursor: pointer; overflow: hidden; height: 500px; }
+        .main-news img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
+        .main-news:hover img { transform: scale(1.05); }
+        .news-overlay { position: absolute; bottom: 0; padding: 40px; background: linear-gradient(transparent, black); width: 100%; }
+        
+        .side-news { display: flex; flex-direction: column; gap: 20px; }
+        .news-card { display: flex; gap: 15px; background: #222; padding: 10px; border-left: 3px solid var(--dorado); cursor: pointer; transition: 0.3s; }
+        .news-card:hover { background: #333; }
+        .news-card img { width: 80px; height: 80px; object-fit: cover; }
+        
+        .mini-news-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+
+        /* --- 7. Poesías --- */
+        .poetry-section { text-align: center; background: var(--blanco-roto); }
+        .tabs { display: flex; justify-content: center; gap: 20px; margin-bottom: 40px; flex-wrap: wrap; }
+        .tab-btn { 
+            background: none; border: 1px solid var(--dorado); padding: 10px 20px; 
+            font-family: 'Cinzel'; cursor: pointer; transition: 0.3s; color: var(--marron-oscuro);
+        }
+        .tab-btn.active { background: var(--dorado); color: white; }
+        .poetry-content { max-width: 700px; margin: 0 auto; min-height: 300px; display: none; padding: 40px; background: white; box-shadow: 0 5px 20px rgba(0,0,0,0.05); border-radius: 5px; }
+        .poetry-content.active { display: block; animation: fadeIn 0.8s; }
+        .poetry-content i { color: var(--dorado); font-size: 2rem; margin-bottom: 20px; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* --- 8. Hermandades --- */
+        .hermandades-section { background: var(--marron-oscuro); color: white; text-align: center; }
+        .h-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 50px 0; }
+        .h-card { background: rgba(255,255,255,0.05); padding: 30px; border: 1px solid rgba(201, 146, 42, 0.3); transition: 0.3s; }
+        .h-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.1); border-color: var(--dorado); }
+        .badge { background: var(--dorado); color: white; padding: 4px 12px; font-size: 0.7rem; border-radius: 50px; display: inline-block; margin-bottom: 10px; }
+
+        /* --- 9. Rutas --- */
+        .rutas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .ruta-card { background: white; border: 1px solid #ddd; padding: 30px; position: relative; }
+        .ruta-num { position: absolute; top: -15px; right: 20px; background: var(--rojo-vino); color: white; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-family: 'Cinzel'; }
+        .ruta-stops { margin: 15px 0; padding-left: 20px; font-size: 0.9rem; }
+        .ruta-meta { display: flex; justify-content: space-between; border-top: 1px solid #eee; pt: 15px; margin-top: 15px; font-size: 0.8rem; color: #666; }
+
+        /* --- 10. Simpecados --- */
+        .simpecados-section { background: #0f0f0f; color: white; }
+        .s-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 50px; }
+        .s-item { text-align: center; }
+        .s-item i { font-size: 3rem; color: var(--dorado); margin-bottom: 20px; }
+
+        /* --- 11. Galería --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 200px; gap: 15px; }
+        .g-item { position: relative; overflow: hidden; cursor: pointer; }
+        .g-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .g-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .g-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(139, 26, 26, 0.8); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; color: white; }
+        .g-item:hover .g-overlay { opacity: 1; }
+        .g-item:hover img { transform: scale(1.1); }
+
+        /* --- 12. Agenda & Sidebar --- */
+        .agenda-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 50px; }
+        .event-item { display: flex; gap: 20px; margin-bottom: 30px; border-bottom: 1px solid #ddd; pb: 20px; }
+        .date-box { background: var(--dorado); color: white; min-width: 80px; height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .sidebar-box { background: var(--blanco-roto); padding: 30px; border: 2px solid var(--dorado); }
+        .form-input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; }
+
+        /* --- 13. Oración --- */
+        .prayer-box { background: white; border: 5px double var(--dorado); padding: 60px; text-align: center; max-width: 800px; margin: 0 auto; position: relative; }
+        .prayer-box::before { content: '♰'; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 2rem; color: var(--dorado); }
+
+        /* --- 14. Footer --- */
+        footer { background: #111; color: #999; padding: 80px 10% 20px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 50px; }
+        .footer-col h4 { color: var(--dorado); margin-bottom: 20px; }
+        .footer-links { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { color: #999; text-decoration: none; transition: 0.3s; }
+        .footer-links a:hover { color: white; padding-left: 5px; }
+        .social-icons { display: flex; gap: 15px; font-size: 1.5rem; margin-top: 20px; }
+        .social-icons a { color: var(--dorado); }
+        .copyright { text-align: center; border-top: 1px solid #222; padding-top: 20px; font-size: 0.8rem; }
+
+        /* --- Modal --- */
+        .modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); padding: 50px; }
+        .modal-content { background: var(--crema); max-width: 800px; margin: 0 auto; padding: 40px; position: relative; max-height: 90vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 2rem; cursor: pointer; color: var(--marron-oscuro); }
+
+        /* --- Botón Volver Arriba --- */
+        #backToTop { position: fixed; bottom: 30px; right: 30px; background: var(--rojo-vino); color: white; width: 50px; height: 50px; border-radius: 50%; display: none; align-items: center; justify-content: center; cursor: pointer; border: 2px solid var(--dorado); z-index: 1000; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .history-grid, .news-grid, .rutas-grid, .h-grid, .s-grid, .agenda-layout, .footer-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+            .menu-toggle { display: block; color: var(--marron-oscuro); font-size: 1.5rem; }
+            .timeline { grid-template-columns: 1fr 1fr; }
+        }
+
+        .menu-toggle { display: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">"¡Viva esa Blanca Paloma!" - Devoción que une corazones desde 1280</div>
+
+    <nav>
+        <a href="#" class="logo">Camino y Rocío</a>
+        <div class="menu-toggle" id="mobile-menu"><i class="fas fa-bars"></i></div>
+        <div class="nav-links">
+            <a href="#historia" class="nav-link">Historia</a>
+            <a href="#noticias" class="nav-link">Noticias</a>
+            <a href="#hermandades" class="nav-link">Hermandades</a>
+            <a href="#rutas" class="nav-link">Rutas</a>
+            <a href="#simpecados" class="nav-link">Simpecados</a>
+            <a href="#contacto" class="btn-subscribe">Suscribirse</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="reveal">
+            <h1 id="hero-title">Camino y Rocío</h1>
+            <p>"Donde el polvo se hace gracia y el cansancio se vuelve fe bajo la mirada de la Reina de las Marismas."</p>
+            <a href="#historia" class="btn-main">Descubrir el Camino</a>
+        </div>
+    </section>
+
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="ticker-item"><i class="fas fa-star"></i> La Hermandad Matriz confirma los horarios para la Romería 2025</div>
+            <div class="ticker-item"><i class="fas fa-star"></i> Restauración concluida del Simpecado de Triana</div>
+            <div class="ticker-item"><i class="fas fa-star"></i> Plan Aldea: nuevas medidas de seguridad para el Lunes de Pentecostés</div>
+            <div class="ticker-item"><i class="fas fa-star"></i> 130 Hermandades Filiales se preparan para el camino</div>
+        </div>
+    </div>
+
+    <section id="historia" class="section-padding">
+        <div class="history-grid">
+            <div class="reveal">
+                <h2 style="color: var(--rojo-vino)">Un Origen de Leyenda</h2>
+                <div class="quote">"En el lugar llamado de Las Rocinas, un cazador halló entre las zarzas la imagen de la que hoy es Madre de todos los almonteños."</div>
+                <p>La devoción a la Virgen del Rocío trasciende los siglos. Desde aquel hallazgo fortuito en el siglo XIII, la ermita en las marismas de Doñana se ha convertido en el epicentro de la mayor romería del mundo, uniendo espiritualidad, naturaleza y tradición andaluza.</p>
+                
+                <div class="timeline">
+                    <div class="hito">
+                        <div class="hito-year">S.XIII</div>
+                        <p style="font-size: 0.8rem">Hallazgo de la imagen por el cazador Goro Medina.</p>
+                    </div>
+                    <div class="hito">
+                        <div class="hito-year">1653</div>
+                        <p style="font-size: 0.8rem">Proclamación de la Virgen como Patrona de Almonte.</p>
+                    </div>
+                    <div class="hito">
+                        <div class="hito-year">1813</div>
+                        <p style="font-size: 0.8rem">Rocío Chico: Voto de acción de gracias tras las tropas de Napoleón.</p>
+                    </div>
+                    <div class="hito">
+                        <div class="hito-year">1919</div>
+                        <p style="font-size: 0.8rem">Coronación Canónica de la Blanca Paloma.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="reveal">
+                <img src="https://images.unsplash.com/photo-1590076215667-873d96c99e4c?auto=format&fit=crop&q=80&w=800" alt="Virgen del Rocío" class="history-img">
+            </div>
+        </div>
+    </section>
+
+    <section id="noticias" class="news-section section-padding">
+        <h2 style="text-align: center; color: var(--dorado); margin-bottom: 40px;">Crónicas de la Marisma</h2>
+        <div class="news-grid">
+            <div class="main-news reveal" onclick="openModal('noticia-1')">
+                <img src="https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?auto=format&fit=crop&q=80&w=1000" alt="Romería 2025">
+                <div class="news-overlay">
+                    <span class="badge">Última Hora</span>
+                    <h3>Presentado el Cartel Oficial de la Romería del Rocío 2025</h3>
+                    <p>Una obra vanguardista que captura la luz del amanecer en el Coto de Doñana...</p>
+                </div>
+            </div>
+            <div class="side-news">
+                <div class="news-card reveal" onclick="openModal('noticia-2')">
+                    <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=200" alt="Triana">
+                    <div>
+                        <h4 style="color: var(--dorado)">Triana anuncia su itinerario</h4>
+                        <p style="font-size: 0.8rem">Cambios en las pernoctas debido a la conservación del suelo...</p>
+                    </div>
+                </div>
+                <div class="news-card reveal" onclick="openModal('noticia-3')">
+                    <img src="https://images.unsplash.com/photo-1545167622-3a6ac756aff4?auto=format&fit=crop&q=80&w=200" alt="Huelva">
+                    <div>
+                        <h4 style="color: var(--dorado)">Huelva: Record de inscritos</h4>
+                        <p style="font-size: 0.8rem">Más de 15.000 peregrinos acompañarán al Simpecado...</p>
+                    </div>
+                </div>
+                <div class="news-card reveal" onclick="openModal('noticia-4')">
+                    <img src="https://images.unsplash.com/photo-1518107616985-bd48230d3b20?auto=format&fit=crop&q=80&w=200" alt="Caballos">
+                    <div>
+                        <h4 style="color: var(--dorado)">Cuidado Equino en el Camino</h4>
+                        <p style="font-size: 0.8rem">Nuevas carpas de asistencia veterinaria gratuita...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mini-news-row">
+            <div class="reveal" style="background:#222; padding: 20px;">
+                <h5>El tiempo en Pentecostés</h5>
+                <p style="font-size: 0.8rem">Previsión de cielos despejados y temperaturas suaves.</p>
+            </div>
+            <div class="reveal" style="background:#222; padding: 20px;">
+                <h5>Misa de Romeros</h5>
+                <p style="font-size: 0.8rem">Retransmisión en directo por Canal Sur y Redes Sociales.</p>
+            </div>
+            <div class="reveal" style="background:#222; padding: 20px;">
+                <h5>Apps del Rocío</h5>
+                <p style="font-size: 0.8rem">Actualización de la app 'Plan Aldea' disponible ya.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding poetry-section">
+        <h2 style="color: var(--rojo-vino)">Versos a la Reina</h2>
+        <div class="tabs reveal">
+            <button class="tab-btn active" onclick="showPoem(0)">Copla Rociera</button>
+            <button class="tab-btn" onclick="showPoem(1)">Poema Devocional</button>
+            <button class="tab-btn" onclick="showPoem(2)">Soneto</button>
+            <button class="tab-btn" onclick="showPoem(3)">A la Carreta</button>
+        </div>
+        
+        <div id="p-0" class="poetry-content active">
+            <i class="fas fa-quote-left"></i>
+            <p>"Quisiera ser el camino,<br>quisiera ser la marea,<br>para decirte Rocío<br>lo que mi alma desea.<br>No es el oro de tu altar,<br>ni el brillo de tu corona,<br>es tu mirada divina<br>la que a mi pecho aprisiona."</p>
+        </div>
+        <div id="p-1" class="poetry-content">
+            <i class="fas fa-quote-left"></i>
+            <p>"Blanca Paloma del cielo,<br>que en las marismas anidas,<br>dale consuelo a mi anhelo<br>y luz a mi triste vida.<br>Bajo el sombrero de ala,<br>entre el polvo y el sudor,<br>tu nombre es la mejor gala<br>y el bálsamo a mi dolor."</p>
+        </div>
+        <div id="p-2" class="poetry-content">
+            <i class="fas fa-quote-left"></i>
+            <p>"Sobre hombros de Almonte te levantas,<br>un volcán de fervor que no se frena,<br>limpiando con tu luz toda mi pena<br>al ver cómo la fe de un pueblo encantas.<br>Benditas sean tus manos, siempre santas,<br>y esa cara de Virgen, tan morena."</p>
+        </div>
+        <div id="p-3" class="poetry-content">
+            <i class="fas fa-quote-left"></i>
+            <p>"Crujen las ruedas de plata,<br>suenan los bueyes al paso,<br>y una medalla de lata<br>brilla al llegar el ocaso.<br>Va la carreta romera,<br>florida de mayo y sol,<br>buscando la primavera<br>con acento español."</p>
+        </div>
+    </section>
+
+    <section id="hermandades" class="section-padding hermandades-section">
+        <h2 style="color: var(--dorado)">Hermandades Históricas</h2>
+        <p>Las guardianas de la tradición y la fe en cada rincón de España.</p>
+        <div class="h-grid">
+            <div class="h-card reveal">
+                <span class="badge">Matriz</span>
+                <h3>Almonte</h3>
+                <p>Huelva | S. XV</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 1</span>
+                <h3>Villamanrique</h3>
+                <p>Sevilla | 1570</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 6</span>
+                <h3>Triana</h3>
+                <p>Sevilla | 1813</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 9</span>
+                <h3>Huelva</h3>
+                <p>Huelva | 1880</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 4</span>
+                <h3>Moguer</h3>
+                <p>Huelva | S. XVII</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 25</span>
+                <h3>Madrid</h3>
+                <p>Madrid | 1961</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 60</span>
+                <h3>Cerro del Águila</h3>
+                <p>Sevilla | 1981</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 72</span>
+                <h3>Macarena</h3>
+                <p>Sevilla | 1986</p>
+            </div>
+            <div class="h-card reveal">
+                <span class="badge">Nº 45</span>
+                <h3>Ayamonte</h3>
+                <p>Huelva | 1976</p>
+            </div>
+        </div>
+        <a href="#" class="btn-main">Ver todas las Hermandades (130+)</a>
+    </section>
+
+    <section id="rutas" class="section-padding">
+        <h2 style="color: var(--rojo-vino); text-align: center; margin-bottom: 50px;">Los Caminos a la Aldea</h2>
+        <div class="rutas-grid">
+            <div class="ruta-card reveal">
+                <div class="ruta-num">01</div>
+                <h3>Camino de Sevilla (Triana)</h3>
+                <ul class="ruta-stops">
+                    <li>Salida: Altozano</li>
+                    <li>Parada: El Guadiamar</li>
+                    <li>Sesteo: Palacio del Rey</li>
+                    <li>Llegada: El Ajolí</li>
+                </ul>
+                <div class="ruta-meta">
+                    <span><i class="fas fa-route"></i> 70 km</span>
+                    <span><i class="fas fa-clock"></i> 4 días</span>
+                    <span>Dificultad: Media</span>
+                </div>
+            </div>
+            <div class="ruta-card reveal">
+                <div class="ruta-num">02</div>
+                <h3>Camino de Huelva</h3>
+                <ul class="ruta-stops">
+                    <li>Salida: Real de la Feria</li>
+                    <li>Parada: La Matilla</li>
+                    <li>Sesteo: Gato</li>
+                    <li>Llegada: Puente del Ajolí</li>
+                </ul>
+                <div class="ruta-meta">
+                    <span><i class="fas fa-route"></i> 45 km</span>
+                    <span><i class="fas fa-clock"></i> 2 días</span>
+                    <span>Dificultad: Baja</span>
+                </div>
+            </div>
+            <div class="ruta-card reveal">
+                <div class="ruta-num">03</div>
+                <h3>Camino de Castilla (Madrid)</h3>
+                <ul class="ruta-stops">
+                    <li>Salida: Iglesia de San Millán</li>
+                    <li>Tramo: Despeñaperros</li>
+                    <li>Tramo: Sierra Morena</li>
+                    <li>Enlace: Almonte</li>
+                </ul>
+                <div class="ruta-meta">
+                    <span><i class="fas fa-route"></i> 580 km</span>
+                    <span><i class="fas fa-clock"></i> 12 días</span>
+                    <span>Dificultad: Alta</span>
+                </div>
+            </div>
+            <div class="ruta-card reveal">
+                <div class="ruta-num">04</div>
+                <h3>Camino de Almonte</h3>
+                <ul class="ruta-stops">
+                    <li>Salida: Parroquia de la Asunción</li>
+                    <li>Senda: Camino de los Llanos</li>
+                    <li>Parada: El Pastorcito</li>
+                    <li>Llegada: Ermita del Rocío</li>
+                </ul>
+                <div class="ruta-meta">
+                    <span><i class="fas fa-route"></i> 30 km</span>
+                    <span><i class="fas fa-clock"></i> 1 día</span>
+                    <span>Dificultad: Muy Baja</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="simpecados" class="section-padding simpecados-section">
+        <div style="text-align: center; max-width: 800px; margin: 0 auto 50px;">
+            <h2 style="color: var(--dorado)">El Simpecado: Estandarte de Fe</h2>
+            <p>Es la insignia que representa a la Virgen para los peregrinos durante el camino. "Sin pecado concebida", el lema que da nombre a estas joyas del bordado y la orfebrería.</p>
+        </div>
+        <div class="s-grid">
+            <div class="s-item reveal">
+                <i class="fas fa-crown"></i>
+                <h4>Matriz de Almonte</h4>
+                <p>Bordado en oro sobre terciopelo rojo, el origen de la devoción.</p>
+            </div>
+            <div class="s-item reveal">
+                <i class="fas fa-church"></i>
+                <h4>Hdad. de Triana</h4>
+                <p>Famoso por su color verde esperanza y sus ángeles de plata.</p>
+            </div>
+            <div class="s-item reveal">
+                <i class="fas fa-sun"></i>
+                <h4>Hdad. de Huelva</h4>
+                <p>Impresionante conjunto de orfebrería con la silueta de la Virgen.</p>
+            </div>
+            <div class="s-item reveal">
+                <i class="fas fa-star"></i>
+                <h4>Hdad. de Villamanrique</h4>
+                <p>El más antiguo de los simpecados filiales que cruzan el Quema.</p>
+            </div>
+            <div class="s-item reveal">
+                <i class="fas fa-dove"></i>
+                <h4>Hdad. de Jerez</h4>
+                <p>Elegancia gaditana con motivos marineros y campestres.</p>
+            </div>
+            <div class="s-item reveal">
+                <i class="fas fa-heart"></i>
+                <h4>Hdad. del Cerro</h4>
+                <p>Muestra de la devoción de un barrio humilde hacia su Madre.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <h2 style="color: var(--rojo-vino); text-align: center; margin-bottom: 40px;">Galería de Instantes</h2>
+        <div class="gallery-grid">
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=800" alt="Virgen">
+                <div class="g-overlay">La Reina de las Marismas</div>
+            </div>
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1590076215667-873d96c99e4c?auto=format&fit=crop&q=80&w=400" alt="Camino">
+                <div class="g-overlay">Polvo en el Camino</div>
+            </div>
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&q=80&w=400" alt="Simpecado">
+                <div class="g-overlay">Estandarte de Fe</div>
+            </div>
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1545167622-3a6ac756aff4?auto=format&fit=crop&q=80&w=400" alt="Bueyes">
+                <div class="g-overlay">El paso de los bueyes</div>
+            </div>
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1518107616985-bd48230d3b20?auto=format&fit=crop&q=80&w=400" alt="Caballos">
+                <div class="g-overlay">Mañana de Mayo</div>
+            </div>
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?auto=format&fit=crop&q=80&w=400" alt="Aldea">
+                <div class="g-overlay">La Aldea Blanca</div>
+            </div>
+            <div class="g-item reveal">
+                <img src="https://images.unsplash.com/photo-1509021436665-8f07dbf5bf1d?auto=format&fit=crop&q=80&w=400" alt="Velas">
+                <div class="g-overlay">Noche de Velas</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-padding bg-white">
+        <div class="agenda-layout">
+            <div class="reveal">
+                <h2 style="color: var(--rojo-vino)">Agenda Rociera 2025</h2>
+                <div class="event-item">
+                    <div class="date-box">
+                        <span style="font-size: 1.5rem">11</span>
+                        <span>MAY</span>
+                    </div>
+                    <div>
+                        <h4>Salida de las Primeras Hermandades</h4>
+                        <p>Las hermandades más lejanas inician su peregrinación hacia la Aldea.</p>
+                        <small><i class="fas fa-map-marker-alt"></i> Varios puntos de España</small>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="date-box">
+                        <span style="font-size: 1.5rem">04</span>
+                        <span>JUN</span>
+                    </div>
+                    <div>
+                        <h4>Presentación ante la Matriz</h4>
+                        <p>Desfile oficial de las hermandades filiales ante las puertas del Santuario.</p>
+                        <small><i class="fas fa-map-marker-alt"></i> Ermita del Rocío</small>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="date-box">
+                        <span style="font-size: 1.5rem">08</span>
+                        <span>JUN</span>
+                    </div>
+                    <div>
+                        <h4>Misa de Pontifical de Pentecostés</h4>
+                        <p>Celebración solemne presidida por el Obispo de Huelva.</p>
+                        <small><i class="fas fa-map-marker-alt"></i> Real del Rocío</small>
+                    </div>
+                </div>
+                <div class="event-item">
+                    <div class="date-box">
+                        <span style="font-size: 1.5rem">09</span>
+                        <span>JUN</span>
+                    </div>
+                    <div>
+                        <h4>Salida de la Virgen (Lunes de Pentecostés)</h4>
+                        <p>Solemne procesión de la Blanca Paloma por las calles de la Aldea.</p>
+                        <small><i class="fas fa-map-marker-alt"></i> Aldea del Rocío</small>
+                    </div>
+                </div>
+            </div>
+            <aside class="sidebar-box reveal">
+                <h3 style="margin-bottom: 20px;">Boletín del Peregrino</h3>
+                <p>Recibe noticias, cambios en los caminos y avisos de última hora en tu email.</p>
+                <form>
+                    <input type="text" class="form-input" placeholder="Nombre completo">
+                    <input type="email" class="form-input" placeholder="Correo electrónico">
+                    <button type="submit" class="btn-subscribe" style="width:100%; border:none; cursor:pointer; padding: 15px;">Unirse a la Hermandad Digital</button>
+                </form>
+            </aside>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="prayer-box reveal">
+            <h2 style="color: var(--rojo-vino); margin-bottom: 20px;">Oración del Peregrino</h2>
+            <p style="font-size: 1.3rem; line-height: 2;">"Señora del Rocío, que este camino que hoy emprendo sea reflejo del camino de mi vida. Que mis pies no se cansen de buscar el bien, que mis manos no se cierren al hermano necesitado, y que mis ojos nunca dejen de mirar tu rostro de Madre. Blanca Paloma, danos tu paz y llévanos siempre de tu mano hacia el Pastor Divino. Amén."</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3 class="logo" style="color: var(--dorado)">Camino y Rocío</h3>
+                <p style="font-size: 0.9rem; margin-top: 15px;">Portal dedicado a la difusión de la devoción rociera, su cultura y su patrimonio.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Secciones</h4>
+                <ul class="footer-links">
+                    <li><a href="#historia">Historia</a></li>
+                    <li><a href="#noticias">Noticias</a></li>
+                    <li><a href="#rutas">Rutas</a></li>
+                    <li><a href="#hermandades">Hermandades</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Hermandades</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Hdad. Matriz</a></li>
+                    <li><a href="#">Hdad. de Triana</a></li>
+                    <li><a href="#">Hdad. de Huelva</a></li>
+                    <li><a href="#">Hdad. de Madrid</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Soporte</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Contacto</a></li>
+                    <li><a href="#">Aviso Legal</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 Camino y Rocío. Todos los derechos reservados. Creado con devoción.
+        </div>
+    </footer>
+
+    <div id="backToTop"><i class="fas fa-chevron-up"></i></div>
+
+    <div id="news-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <script>
+        // Animaciones al hacer scroll (Intersection Observer)
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Pestañas de Poesías
+        function showPoem(index) {
+            document.querySelectorAll('.poetry-content').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`p-${index}`).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // Modales de Noticias
+        const newsData = {
+            'noticia-1': {
+                title: 'Cartel Romería 2025',
+                text: 'El cartel de este año, obra del reconocido artista onubense, destaca por el uso de colores cálidos y una técnica mixta que integra arenas reales del camino de Doñana. Representa el instante justo en que el sol ilumina el rostro de la Virgen tras el salto de la reja.'
+            },
+            'noticia-2': {
+                title: 'Triana y su camino',
+                text: 'La Hermandad de Triana ha modificado ligeramente su paso por el Quema para colaborar con la regeneración de las orillas del río. Se espera una participación masiva de más de 3.000 caballos.'
+            },
+            'noticia-3': {
+                title: 'Huelva: Cifras récord',
+                text: 'Con más de 100 carros de mulas y una comitiva que alcanza los 3 kilómetros de longitud, Huelva se confirma como una de las filiales más multitudinarias del Rocío.'
+            },
+            'noticia-4': {
+                title: 'Bienestar Animal',
+                text: 'La organización ha dispuesto 15 puntos de hidratación extra y equipos veterinarios móviles para asegurar que los bueyes y caballos realicen el camino en condiciones óptimas.'
+            }
+        };
+
+        function openModal(id) {
+            const modal = document.getElementById('news-modal');
+            const body = document.getElementById('modal-body');
+            const data = newsData[id];
+            body.innerHTML = `<h2 style="color:var(--rojo-vino)">${data.title}</h2><hr style="margin:20px 0; border:1px solid var(--dorado)"><p>${data.text}</p><br><img src="https://images.unsplash.com/photo-1548013146-72479768bbaa?auto=format&fit=crop&q=80&w=400" style="width:100%">`;
+            modal.style.display = 'block';
+        }
+
+        document.querySelector('.close-modal').onclick = () => {
+            document.getElementById('news-modal').style.display = 'none';
+        };
+
+        window.onclick = (event) => {
+            if (event.target == document.getElementById('news-modal')) {
+                document.getElementById('news-modal').style.display = 'none';
+            }
+        };
+
+        // Menú Móvil
+        document.getElementById('mobile-menu').onclick = () => {
+            const links = document.querySelector('.nav-links');
+            links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+            links.style.flexDirection = 'column';
+            links.style.position = 'absolute';
+            links.style.top = '70px';
+            links.style.left = '0';
+            links.style.width = '100%';
+            links.style.background = 'white';
+            links.style.padding = '20px';
+        };
+
+        // Botón Volver Arriba
+        const btnTop = document.getElementById('backToTop');
+        window.onscroll = () => {
+            if (document.body.scrollTop > 500 || document.documentElement.scrollTop > 500) {
+                btnTop.style.display = "flex";
+            } else {
+                btnTop.style.display = "none";
+            }
+        };
+        btnTop.onclick = () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    </script>
+</body>
+</html>
